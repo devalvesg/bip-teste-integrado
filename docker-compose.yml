@@ -61,6 +61,27 @@ services:
       - beneficio-network
     restart: unless-stopped
 
+  # Frontend Application Service
+  frontend:
+    build:
+      context: ./frontend/beneficiarios-app
+      dockerfile: Dockerfile
+    container_name: beneficio-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - beneficio-network
+    restart: unless-stopped
+
 
 volumes:
   postgres_data:

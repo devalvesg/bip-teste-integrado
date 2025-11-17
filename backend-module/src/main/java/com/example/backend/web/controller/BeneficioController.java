@@ -52,6 +52,21 @@ public class BeneficioController {
                 .body(ApiResponse.success("Beneficiary created successfully", response));
     }
 
+    @GetMapping
+    @Operation(summary = "Get all beneficiaries", description = "Retrieves all beneficiaries")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "Beneficiaries retrieved successfully"
+            )
+    })
+    public ResponseEntity<java.util.List<BeneficioResponse>> getAllBeneficios() {
+        log.info("GET /api/beneficios - Fetching all beneficiaries");
+
+        java.util.List<BeneficioResponse> responses = beneficioService.getAllBeneficios();
+        return ResponseEntity.ok(responses);
+    }
+
     @GetMapping("/{id}")
     @Operation(summary = "Get beneficiary by ID", description = "Retrieves a beneficiary's information")
     @ApiResponses(value = {

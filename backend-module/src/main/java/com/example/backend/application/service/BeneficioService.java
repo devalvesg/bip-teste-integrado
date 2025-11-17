@@ -40,6 +40,16 @@ public class BeneficioService {
         return mapToResponse(beneficio);
     }
 
+    @Transactional(readOnly = true)
+    public java.util.List<BeneficioResponse> getAllBeneficios() {
+        log.info("Fetching all beneficiaries");
+
+        return beneficioRepository.findAll()
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
+
     private BeneficioResponse mapToResponse(Beneficio beneficio) {
         return new BeneficioResponse(
                 beneficio.getId(),
